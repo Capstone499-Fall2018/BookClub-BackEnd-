@@ -24,3 +24,5 @@ router.put('/updatemajor', appClientController.updateMajor);
 router.put('/updatename', appClientController.updateName);
 router.put('/updatephonenum', appClientController.updatePhoneNum);
 router.put('/getmember', appClientController.getMember);
+router.put('/getBookDetails', appClientController.getBookDetails);
+router.put('/editBookDetails', appClientController.editBookDetails);

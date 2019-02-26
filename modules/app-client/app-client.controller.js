@@ -13,7 +13,9 @@ module.exports = {
     updateMajor,
     updateName,
     updatePhoneNum,
-    getMember
+    getMember,
+    editBookDetails,
+    getBookDetails
 }
 
 async function searchALlBooks(req, res) {
@@ -143,4 +145,27 @@ async function deleteIntBook(req, res) {
     const sql = 'Delete From Interested Where bookUnid = ?';
     const result = (await query(sql, unid));
     return res.json(result);
+}
+
+async function getBookDetails(req, res) {
+    const unid = req.body.unid;
+    const sql = 'select Book.Isbn, Book.Author, Book.Description, Book.Image_URL, Book.Subject, Book.Title, Book.listPrice, Book.origPrice from Book, Owns where Owns.bookUnid = Book.unid and Book.unid = ?';
+    const obj = (await query(sql, unid));
+    return res.json(obj);
+}
+
+async function editBookDetails(req, res) {
+    const unid = req.body.unid;
+    const isbn = req.body.isbn;
+    const title = req.body.title;
+    const author = req.body.author;
+    const subject = req.body.subject;
+    const description = req.body.description;
+    const cprice = req.body.cprice;
+    const oprice = req.body.oprice;
+    const url = req.body.url;
+    const sql = 'update Book set Isbn = ?, Title = ?, Author = ?, Description = ?, Subject =?, listPrice = ?, origPrice = ?, Image_URL = ? where unid = ?';
+    var data = [isbn, title, author, description, subject, cprice, oprice, url, unid];
+    const up = (await query(sql, data));
+    return res.json(up);
 }
