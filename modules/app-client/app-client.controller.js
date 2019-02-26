@@ -47,7 +47,6 @@ async function createBook(req, res) {
     const cprice = req.body.cprice;
     const member = req.body.member;
 
-    // returning into to get unid instead of isbn
     var sql = 'INSERT INTO Book (Isbn, Title, origPrice, listPrice, Author, Description, Subject) values (?,?,?,?,?,?,?) ';
     var data = [
         isbn,
@@ -59,7 +58,7 @@ async function createBook(req, res) {
         subject,
     ];
     const createBook = (await query(sql, data));
-    var getunid = 'Select unid FROM Book where Isbn = ?';
+    var getunid = 'Select unid FROM Book where unid = LAST_INSERT_ID();';
     const bkID = (await query(getunid, isbn));
     var own = [
         bkID[0].unid,
