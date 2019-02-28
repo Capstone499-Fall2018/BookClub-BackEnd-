@@ -26,8 +26,8 @@ async function searchALlBooks(req, res) {
 
 async function searchBook(req, res) {
     const type = req.body.type;
-    const value = req.body.value;
-    const sql = 'Select * from Book  where ' + type + ' = ?';
+    const value = req.body.value.substr(0,4);
+    const sql = 'Select * from Book  where ' + type + ' LIKE CONCAT("%",?,"%")';
     const book = (await query(sql, [value]));
     return res.json(book);
 }
