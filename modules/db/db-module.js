@@ -14,7 +14,6 @@ module.exports = {
     query
 };
 
-
 function query(text, params, callback) {
     return new Promise((resolve, reject) => {
         return pool.query(text, params, (err, result) => {

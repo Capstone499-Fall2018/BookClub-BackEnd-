@@ -34,7 +34,7 @@ async function searchBook(req, res) {
 
 async function searchDetail(req, res) {
     const unid = req.body.unid;
-    const sql = 'Select Title, Author, listPrice, Description, memberUname from Book, Owns where unid = ? and bookUnid = unid';
+    const sql = 'Select Title, Author, listPrice, Description, memberUname, Image_URL from Book, Owns where unid = ? and bookUnid = unid';
     const book = (await query(sql, unid));
     return res.json(book);
 }
