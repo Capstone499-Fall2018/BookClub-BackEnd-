@@ -32,7 +32,7 @@ passport.use(new LocalStrategy({
 
         //creates a new hashed password from the plain text password given at login
         var newHash = crypto.pbkdf2Sync(password, Member[0].salt, 1000, 64, 'SHA512').toString('hex');
-        //newHash = newHash.substr(0,64);
+        newHash = newHash.substr(0,64);
         console.log("newHash: " + newHash);
 
         //compares stored hash password with newly hashed password

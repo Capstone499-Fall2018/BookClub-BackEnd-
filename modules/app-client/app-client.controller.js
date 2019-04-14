@@ -47,9 +47,10 @@ async function createBook(req, res) {
     const subject = req.body.subject;
     const oprice = req.body.oprice;
     const cprice = req.body.cprice;
+    const url = req.body.url;
     const member = req.body.member;
 
-    var sql = 'INSERT INTO Book (Isbn, Title, origPrice, listPrice, Author, Description, Subject) values (?,?,?,?,?,?,?) ';
+    var sql = 'INSERT INTO Book (Isbn, Title, origPrice, listPrice, Author, Description, Subject, Image_URL) values (?,?,?,?,?,?,?,?) ';
     var data = [
         isbn,
         title,
@@ -58,6 +59,7 @@ async function createBook(req, res) {
         author,
         desc,
         subject,
+        url
     ];
     const createBook = (await query(sql, data));
     var getunid = 'Select unid FROM Book where unid = LAST_INSERT_ID();';
