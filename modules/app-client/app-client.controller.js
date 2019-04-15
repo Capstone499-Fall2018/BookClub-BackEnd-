@@ -70,6 +70,7 @@ async function createBook(req, res) {
     const createBook = (await query(sql, data));
     var getunid = 'Select unid FROM Book where unid = LAST_INSERT_ID()';
     const bkID = (await query(getunid));
+    console.log("bookid");
     console.log(bkID[0].unid);
     var own = [
         bkID[0].unid,
