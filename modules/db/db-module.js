@@ -2,9 +2,9 @@ const mysql = require('mysql');
 
 var pool = mysql.createPool({
     connectionLimit: 10,
-    //host: 'mal.cs.plu.edu',
-    host: 'localhost',
-    port: '2000',
+    host: 'mal.cs.plu.edu',
+    //host: 'localhost',
+    //port: '2000',
     user: 'Bookclub',
     password: 'Capstone1819',
     database: 'Bookclub2018'

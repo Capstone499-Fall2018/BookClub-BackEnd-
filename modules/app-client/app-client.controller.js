@@ -1,4 +1,5 @@
 const { query } = require('../db/db-module');
+const crypto = require('crypto');
 
 module.exports = {
     searchBook,
@@ -13,6 +14,7 @@ module.exports = {
     updateMajor,
     updateName,
     updatePhoneNum,
+    updatePassword,
     getMember,
     editBookDetails,
     getBookDetails
@@ -112,6 +114,19 @@ async function updatePhoneNum(req, res) {
     var data = [phone, uname];
     const up = (await query(sql, data));
     return res.json(up);
+}
+
+async function updatePassword(req, res) {
+    const password = req.body.password;
+    const uname = req.body.uname;
+
+    var salt = crypto.randomBytes(16).toString('hex');
+    var hashedPassword = crypto.pbkdf2Sync(password, salt, 1000, 64, 'SHA512').toString('hex');
+
+    const sql = 'update Member set pw_hash = ?, salt = ? where uname = ?';
+    var data = [hashedPassword, salt, uname];
+    const member = (await query(sql, data));
+    return res.json(member);
 }
 
 async function getMember(req, res) {
