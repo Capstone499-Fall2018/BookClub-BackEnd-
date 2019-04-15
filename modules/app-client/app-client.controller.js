@@ -17,7 +17,11 @@ module.exports = {
     updatePassword,
     getMember,
     editBookDetails,
-    getBookDetails
+    getBookDetails,
+    countInterested,
+    getCountInt,
+    showIntUser,
+    updateCount
 }
 
 async function searchALlBooks(req, res) {
@@ -64,9 +68,9 @@ async function createBook(req, res) {
         url
     ];
     const createBook = (await query(sql, data));
-    var getunid = 'Select unid FROM Book where unid = LAST_INSERT_ID();';
+    var getunid = 'Select unid FROM Book where unid = LAST_INSERT_ID()';
     const bkID = (await query(getunid));
-    console.log(bkID);
+    console.log(bkID[0].unid);
     var own = [
         bkID[0].unid,
         member
@@ -85,7 +89,7 @@ async function getMemberBooks(req, res) {
 
 async function deleteBook(req, res) {
     const unid = req.body.unid;
-    const sql = 'Delete From Book Where unid=?';
+    const sql = 'Delete From Book, Interested Where unid=?';
     const del = (await query(sql, unid));
     return res.json(del);
 }
@@ -159,8 +163,10 @@ async function memberInterestedBooks(req, res) {
 
 async function deleteIntBook(req, res) {
     const unid = req.body.unid;
-    const sql = 'Delete From Interested Where bookUnid = ?';
-    const result = (await query(sql, unid));
+    const uname = req.body.uname;
+    const sql = 'Delete From Interested Where bookUnid = ? and memberUname = ?';
+    var data = [unid, uname];
+    const result = (await query(sql, data));
     return res.json(result);
 }
 
@@ -185,4 +191,33 @@ async function editBookDetails(req, res) {
     var data = [isbn, title, author, description, subject, cprice, oprice, url, unid];
     const up = (await query(sql, data));
     return res.json(up);
+}
+
+async function countInterested(req, res) {
+  const uname = req.body.uname;
+  const sql = 'select count (Interested.memberUname) from Interested, Owns, Book where Interested.bookUnid = Owns.bookUnid and Owns.bookUnid = Book.unid and Owns.memberUname = ?';
+  const obj = (await query(sql, uname));
+  return res.json(obj);
+}
+
+async function getCountInt(req, res) {
+  const uname = req.body.uname;
+  const sql = 'select InterestedCount from Member where uname = ?';
+  const obj = (await query(sql, uname));
+  return res.json(obj);
+}
+
+async function showIntUser(req, res) {
+  const uname = req.body.uname;
+  const sql = 'select Interested.memberUname, Book.Title from Interested, Owns, Book where Interested.bookUnid = Owns.bookUnid and Owns.bookUnid = Book.unid and Owns.memberUname = ?';
+  const obj = (await query(sql, uname));
+  return res.json(obj);
+}
+
+async function updateCount(req, res) {
+  const uname = req.body.uname;
+  const sql = 'update Member set InterestedCount = (select count(Interested.memberUname) from Interested, Owns, Book where Interested.bookUnid = Owns.bookUnid and Owns.bookUnid = Book.unid and Owns.memberUname = ?) where Member.uname = ?';
+  var data = [uname, uname];
+  const obj = (await query(sql, data));
+  return res.json(obj);
 }

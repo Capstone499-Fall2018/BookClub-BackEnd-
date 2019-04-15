@@ -14,7 +14,7 @@ module.exports = {
     extractJWTToRequest
 }
 
-//Strategy for verifying login credentials 
+//Strategy for verifying login credentials
 passport.use(new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password'
@@ -51,7 +51,7 @@ passport.use(new JWTStrategy({
     secretOrKey: KEY
 },
     function (jwtPayload, callback) {
-        
+
         //find the user in db if needed
         return query('SELECT * FROM Member WHERE email=?', [jwtPayload.email])
             .then(Member => {
@@ -59,7 +59,7 @@ passport.use(new JWTStrategy({
             })
             .catch(err => {
                 console.log('erroring out in jwt');
-                
+
                 return callback(err);
             });
     }

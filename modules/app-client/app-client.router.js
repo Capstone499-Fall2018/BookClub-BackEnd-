@@ -27,3 +27,7 @@ router.put('/updatepassword', appClientController.updatePassword)
 router.put('/getmember', appClientController.getMember);
 router.put('/getBookDetails', appClientController.getBookDetails);
 router.put('/editBookDetails', appClientController.editBookDetails);
+router.put('/count', appClientController.countInterested);
+router.put('/getCount', appClientController.getCountInt);
+router.put('/showIntUser', appClientController.showIntUser);
+router.put('/updateCount', appClientController.updateCount);
