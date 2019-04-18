@@ -68,9 +68,8 @@ async function createBook(req, res) {
         url
     ];
     const createBook = (await query(sql, data));
-    var getunid = 'Select unid FROM Book where unid = LAST_INSERT_ID()';
+    var getunid = 'Select unid FROM Book where unid = LAST_INSERT_ID();';
     const bkID = (await query(getunid));
-    console.log("bookid");
     console.log(bkID[0].unid);
     var own = [
         bkID[0].unid,
@@ -90,7 +89,7 @@ async function getMemberBooks(req, res) {
 
 async function deleteBook(req, res) {
     const unid = req.body.unid;
-    const sql = 'Delete From Book, Interested Where unid=?';
+    const sql = 'Delete From Book Where unid = ?';
     const del = (await query(sql, unid));
     return res.json(del);
 }
