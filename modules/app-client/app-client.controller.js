@@ -68,11 +68,10 @@ async function createBook(req, res) {
         url
     ];
     const createBook = (await query(sql, data));
-    var getunid = 'Select LAST_INSERT_ID();';
-    const bkID = (await query(getunid));
-    console.log(bkID[0]['LAST_INSERT_ID()']);
+    console.log(createBook.insertId);
+    var getunid = createBook.insertId;
     var own = [
-        bkID[0]['LAST_INSERT_ID()'],
+        getunid,
         member
     ];
     var createRelation = 'INSERT INTO Owns (bookUnid, memberUname) VALUES (?, ?)';
