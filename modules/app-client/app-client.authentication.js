@@ -32,7 +32,6 @@ async function register(req, res) {
         var salt = crypto.randomBytes(16).toString('hex');
         var hashedPassword = crypto.pbkdf2Sync(req.body.password, salt, 1000, 64, 'SHA512').toString('hex');
     }
-    console.log("made it past email and pass verification in register");
 
     var sqlRegister = 'INSERT INTO Member (uname, pw_hash, email, salt, major, phone, name) VALUES (?,?,?,?,?,?,?)';
     
@@ -49,7 +48,6 @@ async function register(req, res) {
     ];
 
     const register = (await query(sqlRegister, dataRegister));
-    console.log(register);
     
     var sqlMember = 'SELECT * FROM Member where email=?';
     const Member = (await query(sqlMember,[verifiedEmail]));
