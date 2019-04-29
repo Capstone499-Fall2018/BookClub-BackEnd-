@@ -7,7 +7,8 @@ const APP_SECRET = 'super_secret_needs_to_come_from_settings';
 
 module.exports = {
     register,
-    login
+    login,
+    unameCheck
 }
 
 async function register(req, res) {
@@ -78,4 +79,32 @@ function generateToken(Member) {
         email: Member.email,
         exp: parseInt(expiry.getTime() / 1000)
     }, APP_SECRET);
+}
+
+async function unameCheck(req, res) {
+    //Checking to make sure the username is unique
+
+    var sqlRegister = 'SELECT * FROM member WHERE uname = ?';
+    
+    
+    //Insert data from the POST body
+    var dataCheck = [
+        req.body.uname
+    ];
+
+    const register = (await query(sqlRegister, dataCheck));
+    var obj;
+    if(register == null) {
+        obj = {
+            result: false
+        }
+    } else {
+        obj = {
+            result: true
+        }
+    }
+
+    // The request went through and returns a json object of the client profile
+    res.statusCode = 200;
+    return res.json(obj);
 }

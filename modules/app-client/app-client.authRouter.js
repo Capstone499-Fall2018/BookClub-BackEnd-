@@ -6,5 +6,6 @@ const authController = require('./app-client.authentication');
 
 module.exports = router;
 
+router.put('/unameCheck', authController.register);
 router.put('/register', authController.register);
 router.put('/login', passport.authenticate('local', { session: false }), authController.login);
