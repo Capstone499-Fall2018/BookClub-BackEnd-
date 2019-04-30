@@ -13,16 +13,9 @@ module.exports = {
 async function register(req, res) {
     var sqlRegister = 'SELECT * FROM Member WHERE uname = ?';
 
-    // Insert data from the POST body
-    var uname = [
-      req.body.uname
-    ];
-    const reg = (await query(sqlRegister, uname));
-    //var obj;
+    const reg = (await query(sqlRegister, req.body.uname));
+
     if(reg.length!= 0 ) {
-        //obj = {
-          //  result: false
-        //}
         return res.json(false);
     } else {
         //email verification
