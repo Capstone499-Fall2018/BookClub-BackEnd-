@@ -23,5 +23,4 @@ function query(text, params, callback) {
             resolve(result)
         }).result
     })
-
 }
