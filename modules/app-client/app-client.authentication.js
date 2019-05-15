@@ -14,8 +14,8 @@ async function register(req, res) {
     var sqlRegister = 'SELECT * FROM Member WHERE uname = ?';
 
     const reg = (await query(sqlRegister, req.body.uname));
-
-    if(reg.length!= 0 ) {
+    console.log(reg);
+    if(reg.length != 0 ) {
         return res.json(false);
     } else {
         //email verification
@@ -36,8 +36,15 @@ async function register(req, res) {
             });
         }
         else {
+          var sqlEmail = 'Select * from Member where email = ?';
+          const em = (await query (sqlEmail, req.body.email));
+          console.log(em);
+          if(em.length != 0) {
+            return res.json({ errors: ['This email has already been used. Please choose a different email.']});
+          } else {
             var salt = crypto.randomBytes(16).toString('hex');
             var hashedPassword = crypto.pbkdf2Sync(req.body.password, salt, 1000, 64, 'SHA512').toString('hex');
+          }
         }
 
         var sqlRegister = 'INSERT INTO Member (uname, pw_hash, email, salt, major, phone, name) VALUES (?,?,?,?,?,?,?)';
