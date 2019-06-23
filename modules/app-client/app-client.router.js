@@ -31,3 +31,4 @@ router.put('/count', appClientController.countInterested);
 router.put('/getCount', appClientController.getCountInt);
 router.put('/showIntUser', appClientController.showIntUser);
 router.put('/updateCount', appClientController.updateCount);
+router.put('/deleteaccount', appClientController.deleteaccount);

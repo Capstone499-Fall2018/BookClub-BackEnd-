@@ -21,7 +21,8 @@ module.exports = {
     countInterested,
     getCountInt,
     showIntUser,
-    updateCount
+    updateCount,
+    deleteaccount
 }
 
 async function searchALlBooks(req, res) {
@@ -218,5 +219,12 @@ async function updateCount(req, res) {
   const sql = 'update Member set InterestedCount = (select count(Interested.memberUname) from Interested, Owns, Book where Interested.bookUnid = Owns.bookUnid and Owns.bookUnid = Book.unid and Owns.memberUname = ?) where Member.uname = ?';
   var data = [uname, uname];
   const obj = (await query(sql, data));
+  return res.json(obj);
+}
+
+async function deleteaccount(req, res) {
+  const uname = req.body.uname;
+  const sql = 'delete from Member where uname = ?';
+  const obj = (await query(sql, uname));
   return res.json(obj);
 }
